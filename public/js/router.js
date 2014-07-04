@@ -8,7 +8,7 @@ var TasksRouter = Backbone.Router.extend({
         "filter/:status": "filter",
         "note/:id" : "note",
         "new_task" : "addTask",
-        "complite_selected" : "compliteSelected","
+        "complite_selected" : "compliteSelected"
 
     },
 
@@ -50,7 +50,7 @@ var TasksRouter = Backbone.Router.extend({
 
     compliteSelected : function() {
         var tasksId = [];
-        $('input[type=checkbox]:checked').each(function () {
+        $('input[name=select]:checked').each(function () {
         	tasksId.push(this.id);
         }); 
 	this.complite(tasksId); 
