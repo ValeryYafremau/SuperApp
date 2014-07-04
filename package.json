@@ -1,0 +1,12 @@
+{
+  "name": "ToDo",
+  "author": "ValeryYafremau",
+  "description": "ToDp",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "underscore": "1.6.0",
+    "node_statuic": "0.7.3"
+  }
+}
