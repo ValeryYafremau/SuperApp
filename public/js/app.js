@@ -8,7 +8,7 @@ Backbone.history.start();
 $(document).ready(function() {
 
     $('input:radio[name=status]').change(function(){  
-	$('#complite').text($('input:radio[name=status]:checked').val() === 'active' ? 'Complite' : 'Delete');
+	$('#complite').text($('input:radio[name=status]:checked').val() === 'active' ? 'Complete' : 'Delete');
 	tasksRouter.filter($('input:radio[name=status]').val());
     });
 
