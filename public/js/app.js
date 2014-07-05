@@ -1,20 +1,3 @@
-var idCounter = 0;
-
-var isSelected = false;
-
-var controller = "./MainController";
-
-var Task = Backbone.Model.extend({
-
-    urlRoot : controller
-
-});
-
-var TasksList = Backbone.Collection.extend({
-    model: Task
-});
-
-var tasks = new TasksList();
 
 var tasksView = new TasksView();
 
