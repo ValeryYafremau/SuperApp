@@ -40,12 +40,30 @@ var TasksRouter = Backbone.Router.extend({
       	        	that.navigate("#filter/" + $('input[name=status]:checked').val(), {trigger: true});  	
 		}
     	}); 
+    }, 
+
+    delete : function(tasksId) {
+        var that = this;
+    	$.ajax({
+    		type : "DELETE",
+    		url : this.backendController,
+    		dataType : "JSON",
+    		data : {"tasksId" : tasksId},
+    		success : function() {
+    			that.filter();
+      	        	that.navigate("#filter/" + $('input[name=status]:checked').val(), {trigger: true});  	
+		}
+    	}); 
     },
 
     note : function(id) {
     	var tasksId = [];
     	tasksId.push(id);
-	this.complite(tasksId);  
+	if($('input[name=status]:checked').val() === 'complited') {
+		this.delete(tasksId);  
+	} else {
+		this.complite(tasksId);		
+	} 
     },
 
     compliteSelected : function() {
@@ -53,7 +71,11 @@ var TasksRouter = Backbone.Router.extend({
         $('input[name=select]:checked').each(function () {
         	tasksId.push(this.id);
         }); 
-	this.complite(tasksId); 
+	if($('input[name=status]:checked').val() === 'active') {
+		this.complite(tasksId);	 
+	} else {
+		this.delete(tasksId); 	
+	} 
     },         
 
     addTask : function() { 
