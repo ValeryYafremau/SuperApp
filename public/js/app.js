@@ -24,8 +24,9 @@ Backbone.history.start();
 
 $(document).ready(function() {
 
-    $('input:radio[name=status]').change(function(){
-        tasksRouter.filter($('input:radio[name=status]').val());
+    $('input:radio[name=status]').change(function(){  
+	$('#complite').text($('input:radio[name=status]:checked').val() === 'active' ? 'Complite' : 'Delete');
+	tasksRouter.filter($('input:radio[name=status]').val());
     });
 
     $('#form').submit(function(e) {
