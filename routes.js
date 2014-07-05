@@ -6,5 +6,7 @@ module.exports.setRoutes = function(app, handlers){
 
 	app.put('/', handlers.complite);
 
+	app.delete('/', handlers.delete);
+
 }
 
