@@ -8,5 +8,7 @@ module.exports.setRoutes = function(app, handlers){
 
 	app.delete('/:id', handlers.delete);
 
+	app.delete('/', handlers.delete);
+
 }
 
