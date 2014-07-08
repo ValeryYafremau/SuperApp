@@ -4,7 +4,9 @@ module.exports.setRoutes = function(app, handlers){
 
 	app.post('/', handlers.newTask);
 
-	app.put('/', handlers.complite);
+	app.put('/:id', handlers.complete);
+
+	app.delete('/:id', handlers.delete);
 
 }
 

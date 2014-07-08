@@ -1,77 +1,54 @@
 var TasksRouter = Backbone.Router.extend({
 	
-	backendController : "/",
-	
     routes: {
 
     	"" : "redirect",
         "filter/:status": "filter",
         "note/:id" : "note",
         "new_task" : "addTask",
-        "complite_selected" : "compliteSelected","
+        "complete_selected" : "completeSelected"
 
     },
 
     redirect : function() {
-        this.navigate("#filter/active", {trigger: true});
+        this.navigate("#filter/active");
     },
 
     filter: function() {
-	var that = this;
-    	$.ajax({
-    		type: "GET",
-    		url: this.backendController + "filter/" + $('input[name=status]:checked').val(),
-    		success : function(tasks) {
-        		tasksView.render(tasks);
-      	        	that.navigate("#filter/" + $('input[name=status]:checked').val(), {trigger: true});  
-    		}
-    	});
-    },
-
-    complite : function(tasksId) {
-        var that = this;
-    	$.ajax({
-    		type : "PUT",
-    		url : this.backendController,
-    		dataType : "JSON",
-    		data : {"tasksId" : tasksId},
-    		success : function() {
-    			that.filter();
-      	        	that.navigate("#filter/" + $('input[name=status]:checked').val(), {trigger: true});  	
-		}
-    	}); 
+	tasks.fetch({success : function() {tasksView.render(tasks)}});
+      	this.navigate("#filter/" + $('input[name=status]:checked').val());  
     },
 
     note : function(id) {
-    	var tasksId = [];
-    	tasksId.push(id);
-	this.complite(tasksId);  
-    },
-
-    compliteSelected : function() {
-        var tasksId = [];
-        $('input[type=checkbox]:checked').each(function () {
-        	tasksId.push(this.id);
-        }); 
-	this.complite(tasksId); 
+	if($('input[name=status]:checked').val() === 'completed') {
+		new Task({"id" : id}).destroy();
+	} else {
+		new Task().save({"id" : id});		
+	} 
+	this.filter();
     },         
 
     addTask : function() { 
         var val = $("#text").val();
-        var that = this;
         if(!/^\s*$/.test(val)) {
-        	$.ajax({
-    			type: "POST",
-      			url: this.backendController,
-      			dataType: "JSON",
-      			data : {"name" : val},
-      			success : function() {
-				that.filter();
-      	        		that.navigate("#filter/" + $('input[name=status]:checked').val(), {trigger: true});   
-      			}
-      		});;
+		new Task().save({"name" : val});
+		this.filter();
         	$("#text").val('');
         }
+    },
+
+    completeSelected : function() {
+        tasks.reset();
+	if($('input[name=status]:checked').val() === 'completed') {
+		$('input[name=select]:checked').each(function () {
+        		new Task({"id" : this.id}).destroy();
+        	}); 
+	} else {
+		$('input[name=select]:checked').each(function () {
+        		new Task({"id" : this.id}).save();
+		});
+	} 
+	this.filter();
     }
 
 });

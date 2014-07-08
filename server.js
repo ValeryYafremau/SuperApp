@@ -8,7 +8,7 @@ var http = require('http'),
     server = app.listen(conf.config.port, function() {
 
 	app.use(express.static(__dirname + '/public'));
-	app.use(express.bodyParser());	
+	app.use(express.bodyParser());
 	routes.setRoutes(app, handlers);
 	console.log('Listening on port %d', server.address().port);
 

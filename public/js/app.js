@@ -1,20 +1,15 @@
-var idCounter = 0;
-
-var isSelected = false;
-
-var controller = "./MainController";
-
 var Task = Backbone.Model.extend({
-
-    urlRoot : controller
-
+	urlRoot : "/"
 });
 
-var TasksList = Backbone.Collection.extend({
-    model: Task
+var Tasks = Backbone.Collection.extend({
+	url : function() {
+		return "/filter/" + $('input:radio[name=status]:checked').val()
+		},
+    	model : Task
 });
 
-var tasks = new TasksList();
+var tasks = new Tasks();
 
 var tasksView = new TasksView();
 
@@ -24,8 +19,9 @@ Backbone.history.start();
 
 $(document).ready(function() {
 
-    $('input:radio[name=status]').change(function(){
-        tasksRouter.filter($('input:radio[name=status]').val());
+    $('input:radio[name=status]').change(function(){  
+	$('#complete').text($('input:radio[name=status]:checked').val() === 'active' ? 'Complete' : 'Delete');
+	tasksRouter.navigate("#filter/" + $('input[name=status]:checked').val(), {trigger: true});  
     });
 
     $('#form').submit(function(e) {
@@ -37,8 +33,7 @@ $(document).ready(function() {
 	    var checked = $('#selector').prop("checked");
     	    $('input[name=select]').each(function () {
             	this.checked = checked;
-        })
-	 $('#selectorText').text(checked ? "Unselect All" : "Select All");
+        });
     });
 
 });
